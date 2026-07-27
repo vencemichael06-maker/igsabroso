@@ -37,6 +37,13 @@ describe("ProjectsPage", () => {
     expect(onCategoryChange).toHaveBeenCalledWith("design");
   });
 
+  it("shows the exact visible result count for a filtered category", async () => {
+    await renderProjectsPage({ category: "design" });
+
+    expect(screen.getByText("4 projects")).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: /^View .+ gallery$/ })).toHaveLength(4);
+  });
+
   it("clears an incompatible selected project when the category changes", async () => {
     const user = userEvent.setup();
     const { onProjectSelect } = await renderProjectsPage({ selectedSlug: "alivio" });
