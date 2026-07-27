@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { StrictMode, useRef, useState } from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
@@ -94,6 +94,55 @@ describe("Lightbox", () => {
     await user.click(screen.getByRole("button", { name: "Close image viewer" }));
 
     expect(trigger).toHaveFocus();
+  });
+
+  it("keeps focus in the dialog during StrictMode effect replay", () => {
+    function StrictModeHarness() {
+      const triggerRef = useRef<HTMLButtonElement>(null);
+
+      return (
+        <>
+          <button ref={triggerRef} type="button">
+            Return target
+          </button>
+          <Lightbox
+            images={images}
+            index={0}
+            onClose={() => undefined}
+            returnFocusRef={triggerRef}
+          />
+        </>
+      );
+    }
+
+    render(
+      <StrictMode>
+        <StrictModeHarness />
+      </StrictMode>,
+    );
+
+    expect(screen.getByRole("dialog", { name: "Project image viewer" })).toHaveFocus();
+  });
+
+  it("updates the visible image when the external index changes", () => {
+    const { rerender } = render(<Lightbox images={images} index={0} onClose={() => undefined} />);
+
+    expect(screen.getByRole("img", { name: /image 1 of 2/ })).toBeInTheDocument();
+
+    rerender(<Lightbox images={images} index={1} onClose={() => undefined} />);
+
+    expect(screen.getByRole("img", { name: /image 2 of 2/ })).toBeInTheDocument();
+    expect(screen.getByText("2 / 2")).toBeInTheDocument();
+  });
+
+  it("closes when the backdrop is activated", () => {
+    const onClose = vi.fn();
+
+    render(<Lightbox images={images} index={0} onClose={onClose} />);
+
+    fireEvent.click(screen.getByRole("dialog", { name: "Project image viewer" }));
+
+    expect(onClose).toHaveBeenCalledOnce();
   });
 
   it("keeps Tab and Shift+Tab focus inside the dialog", async () => {

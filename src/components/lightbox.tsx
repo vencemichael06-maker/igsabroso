@@ -42,8 +42,6 @@ export function Lightbox({
   const open = index >= 0 && index < images.length;
   const dialogRef = useRef<HTMLDivElement>(null);
   const touchStart = useRef<number | null>(null);
-  const wasOpenRef = useRef(false);
-  const returnFocusElementRef = useRef<HTMLElement | null>(null);
   const [currentIndex, setCurrentIndex] = useState(index);
   const [failedSources, setFailedSources] = useState<Set<string>>(() => new Set());
 
@@ -65,25 +63,15 @@ export function Lightbox({
   );
 
   useEffect(() => {
-    if (open && !wasOpenRef.current) {
-      returnFocusElementRef.current = returnFocusRef?.current ?? null;
-      dialogRef.current?.focus();
-    } else if (!open && wasOpenRef.current) {
-      returnFocusElementRef.current?.focus();
-      returnFocusElementRef.current = null;
-    }
+    if (!open) return;
 
-    wasOpenRef.current = open;
+    const returnFocusElement = returnFocusRef?.current ?? null;
+    dialogRef.current?.focus();
+
+    return () => {
+      returnFocusElement?.focus();
+    };
   }, [open, returnFocusRef]);
-
-  useEffect(
-    () => () => {
-      if (wasOpenRef.current) {
-        returnFocusElementRef.current?.focus();
-      }
-    },
-    [],
-  );
 
   useEffect(() => {
     if (!open) return;
