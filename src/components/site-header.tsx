@@ -62,7 +62,7 @@ export function SiteHeader({ floating = false }: { floating?: boolean }) {
       if (pathname !== "/") return false;
       return item.hash ? activeHash === item.hash : activeHash === "";
     }
-    if (item.to === "/projects") return pathname === "/projects";
+    if (item.to === "/projects") return pathname.startsWith("/projects");
     if (item.to === "/consultation") return pathname.startsWith("/consultation");
     return false;
   };
@@ -101,7 +101,7 @@ export function SiteHeader({ floating = false }: { floating?: boolean }) {
                 key={item.label}
                 to={item.to}
                 hash={item.hash}
-                activeOptions={{ exact: item.to !== "/consultation", includeHash: item.to === "/" }}
+                activeOptions={{ exact: item.to === "/", includeHash: item.to === "/" }}
                 className={`relative min-h-11 px-4 py-2 inline-flex items-center text-sm font-medium rounded-full transition-colors ${
                   active ? "text-primary-foreground" : "text-foreground/80 hover:text-foreground"
                 }`}
@@ -199,7 +199,7 @@ export function SiteHeader({ floating = false }: { floating?: boolean }) {
                   to={item.to}
                   hash={item.hash}
                   activeOptions={{
-                    exact: item.to !== "/consultation",
+                    exact: item.to === "/",
                     includeHash: item.to === "/",
                   }}
                   onClick={() => setOpen(false)}

@@ -32,7 +32,7 @@ async function renderHeader(initialEntry: string) {
       </ThemeProvider>
     ),
   });
-  const routes = ["/", "/details", "/projects", "/consultation"].map((path) =>
+  const routes = ["/", "/details", "/projects", "/projects/example", "/consultation"].map((path) =>
     createRoute({
       getParentRoute: () => rootRoute,
       path,
@@ -81,5 +81,19 @@ describe("SiteHeader navigation", () => {
       expect(screen.getAllByRole("link", { name: "Projects" })).toHaveLength(1);
     });
     expect(screen.getByRole("link", { name: "Projects" })).toHaveAttribute("aria-current", "page");
+  });
+
+  it("keeps Projects active on a nested project path", async () => {
+    await renderHeader("/projects/example");
+
+    const projects = screen.getByRole("link", { name: "Projects" });
+    expect(projects).toHaveClass("text-primary-foreground");
+    expect(projects).toHaveAttribute("aria-current", "page");
+
+    for (const label of ["Home", "About", "Services", "Process"]) {
+      const landingLink = screen.getByRole("link", { name: label });
+      expect(landingLink).not.toHaveClass("text-primary-foreground");
+      expect(landingLink).not.toHaveAttribute("aria-current");
+    }
   });
 });
