@@ -34,3 +34,6 @@ dist-ssr
 tmp/drive-downloads/
 tmp/drive-projects/
 tmp/project-contact-sheets/
+
+# Local Netlify folder
+.netlify
