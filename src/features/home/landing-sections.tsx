@@ -110,13 +110,15 @@ export function LandingSections() {
                 <figure
                   key={project.slug}
                   className={
-                    index === 0 ? "group lg:col-span-7 lg:row-span-2" : "group lg:col-span-5"
+                    index === 0
+                      ? "group grid grid-rows-[auto_auto] lg:col-span-7 lg:row-span-2 lg:grid-rows-[minmax(0,1fr)_auto]"
+                      : "group lg:col-span-5"
                   }
                 >
                   <div
                     className={
                       index === 0
-                        ? "media-fallback aspect-[4/3] overflow-hidden bg-background/10 lg:aspect-auto lg:h-full lg:min-h-[38rem]"
+                        ? "media-fallback aspect-[4/3] overflow-hidden bg-background/10 lg:aspect-auto lg:h-full lg:min-h-0"
                         : "media-fallback aspect-[4/3] overflow-hidden bg-background/10 lg:aspect-[16/9]"
                     }
                   >

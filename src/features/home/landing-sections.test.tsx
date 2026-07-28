@@ -32,6 +32,16 @@ describe("LandingSections", () => {
     );
   });
 
+  it("keeps the lead project media and caption in bounded desktop grid rows", async () => {
+    await renderLandingSections();
+
+    const leadFigure = screen
+      .getByRole("img", { name: "Gono Project — image 1 of 6" })
+      .closest("figure");
+    expect(leadFigure).toHaveClass("grid");
+    expect(leadFigure).toHaveClass("lg:grid-rows-[minmax(0,1fr)_auto]");
+  });
+
   it("provides the exact anchored landing sections", async () => {
     await renderLandingSections();
 

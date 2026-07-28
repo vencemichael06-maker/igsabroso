@@ -13,7 +13,7 @@ export function HomeHero({ onManageBooking }: { onManageBooking: () => void }) {
       <div className="relative w-full max-w-[100vw] overflow-x-hidden bg-background pb-[calc(110px+env(safe-area-inset-bottom))] md:hidden">
         <SiteHeader />
 
-        <section className="relative w-full overflow-hidden" aria-labelledby="home-heading">
+        <section className="relative w-full overflow-hidden" aria-labelledby="home-heading-mobile">
           <div className="pointer-events-none absolute right-0 top-0 h-[clamp(420px,72vw,560px)] w-[62%]">
             <img
               src={excavatorMobile}
@@ -32,18 +32,14 @@ export function HomeHero({ onManageBooking }: { onManageBooking: () => void }) {
           >
             <div className="mb-4 h-[3px] w-9 rounded-full bg-primary" />
             <h1
-              id="home-heading"
+              id="home-heading-mobile"
               className="max-w-[55%] break-words font-display font-black leading-[0.95] tracking-[-0.04em] text-foreground"
               style={{ fontSize: "clamp(40px, 12vw, 58px)" }}
             >
-              Building
-              <br />
-              better
-              <br />
-              spaces,
-              <br />
-              lasting
-              <br />
+              Building <br />
+              better <br />
+              spaces, <br />
+              lasting <br />
               value.
             </h1>
 
@@ -86,8 +82,7 @@ export function HomeHero({ onManageBooking }: { onManageBooking: () => void }) {
               <span className="font-semibold text-primary">Built to Last</span>
             </div>
             <p className="mt-4 text-center text-[11.5px] uppercase leading-[1.6] tracking-[0.22em] text-muted-foreground">
-              Build with confidence —
-              <br />
+              Build with confidence — <br />
               build with Sabroso.
             </p>
           </div>
@@ -109,7 +104,7 @@ export function HomeHero({ onManageBooking }: { onManageBooking: () => void }) {
 
       <section
         className="relative hidden min-h-screen w-full overflow-hidden bg-background md:block"
-        aria-label="IG Sabroso Construction"
+        aria-labelledby="home-heading-desktop"
       >
         <div className="absolute inset-0">
           <motion.img
@@ -158,9 +153,12 @@ export function HomeHero({ onManageBooking }: { onManageBooking: () => void }) {
           transition={{ delay: 0.6, duration: 0.7 }}
           className="absolute right-12 top-40 z-10 max-w-[220px] text-right"
         >
-          <p className="text-sm font-medium leading-relaxed text-foreground/85">
+          <h1
+            id="home-heading-desktop"
+            className="font-sans text-sm font-medium leading-relaxed tracking-normal text-foreground/85"
+          >
             Building the future with quality and trust.
-          </p>
+          </h1>
           <div className="ml-auto mt-3 h-0.5 w-10 rounded-full gradient-brand" />
         </motion.div>
 
