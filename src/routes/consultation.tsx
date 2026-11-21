@@ -33,6 +33,7 @@ export const Route = createFileRoute("/consultation")({
 });
 
 function ConsultationPage() {
+  const recovery = import.meta.env.VITE_PAGES_RECOVERY === true;
   const [bookingReference, setBookingReference] = useState<string | null>(null);
   const [manageOpen, setManageOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -154,6 +155,14 @@ function ConsultationPage() {
                 <h2 className="font-display font-bold text-2xl">Request a Consultation</h2>
                 <p className="text-sm text-muted-foreground mt-1">Tell us about your project and our team will contact you to confirm your site visit.</p>
 
+                {recovery ? (
+                  <div className="mt-8 space-y-4">
+                    <p>Online booking is temporarily unavailable. Call or email us to discuss your project.</p>
+                    <button type="button" onClick={openIgsContact} className="min-h-11 rounded-full gradient-brand px-5 py-3 font-semibold text-primary-foreground">
+                      Contact IG Sabroso
+                    </button>
+                  </div>
+                ) : <>
                 <form onSubmit={onSubmit} className="mt-8 grid sm:grid-cols-2 gap-5">
                   <Field label="Full Name" name="fullName" placeholder="Juan Dela Cruz" required />
                   <Field label="Phone Number" name="phoneNumber" placeholder="+63 ..." required />
@@ -285,6 +294,7 @@ function ConsultationPage() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+                </>}
               </motion.div>
             </div>
           </div>
@@ -293,11 +303,11 @@ function ConsultationPage() {
         <SiteFooter />
       </main>
 
-      <CheckBookingModal
+      {!recovery && <CheckBookingModal
         open={manageOpen}
         onClose={() => setManageOpen(false)}
         initialReference={bookingReference ?? undefined}
-      />
+      />}
     </PageTransition>
   );
 }

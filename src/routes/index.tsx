@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { openIgsContact } from "@/lib/contact";
 import { useState } from "react";
 import { CheckBookingModal } from "@/components/booking-modals";
 import { PageTransition } from "@/components/page-transition";
@@ -32,14 +33,16 @@ export const Route = createFileRoute("/")({
 function HomePage() {
   const [bookingOpen, setBookingOpen] = useState(false);
 
+  const recovery = import.meta.env.VITE_PAGES_RECOVERY === true;
+
   return (
     <PageTransition>
       <main>
-        <HomeHero onManageBooking={() => setBookingOpen(true)} />
+        <HomeHero onManageBooking={recovery ? openIgsContact : () => setBookingOpen(true)} />
         <LandingSections />
       </main>
       <SiteFooter />
-      <CheckBookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} />
+      {!recovery && <CheckBookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} />}
     </PageTransition>
   );
 }

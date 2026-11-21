@@ -5,6 +5,8 @@ import excavatorMobile from "@/assets/excavator-hero-mobile.jpg";
 import helmetAsset from "@/assets/helmet-hero.png.asset.json";
 import { SiteHeader } from "@/components/site-header";
 
+const recovery = import.meta.env.VITE_PAGES_RECOVERY === true;
+
 export function HomeHero({ onManageBooking }: { onManageBooking: () => void }) {
   const hero = helmetAsset.url;
 
@@ -44,7 +46,7 @@ export function HomeHero({ onManageBooking }: { onManageBooking: () => void }) {
             </h1>
 
             <p className="mt-6 max-w-[58%] text-[15px] leading-[1.55] text-muted-foreground">
-              Manage your booking with ease — view details, reschedule, or cancel anytime.
+              {recovery ? "Contact our team to discuss your project." : "Manage your booking with ease — view details, reschedule, or cancel anytime."}
             </p>
           </motion.div>
         </section>
@@ -64,11 +66,11 @@ export function HomeHero({ onManageBooking }: { onManageBooking: () => void }) {
           <button
             type="button"
             onClick={onManageBooking}
-            aria-label="Manage your booking"
+            aria-label={recovery ? "Contact IG Sabroso" : "Manage your booking"}
             className="inline-flex h-[58px] w-full items-center justify-between gap-3 rounded-full border border-black/5 bg-white px-5 text-foreground shadow-[0_8px_22px_rgba(0,0,0,0.10)] transition hover:bg-white/95 max-[390px]:h-[54px]"
           >
             <CalendarCheck size={18} className="shrink-0 text-primary" />
-            <span className="text-[15px] font-semibold">Manage Booking</span>
+            <span className="text-[15px] font-semibold">{recovery ? "Contact Us" : "Manage Booking"}</span>
             <ArrowRight size={16} className="shrink-0 text-primary" />
           </button>
         </section>
@@ -130,20 +132,20 @@ export function HomeHero({ onManageBooking }: { onManageBooking: () => void }) {
         >
           <div className="mb-3 h-0.5 w-10 rounded-full gradient-brand" />
           <p className="text-sm font-medium leading-relaxed text-foreground/85">
-            Already booked an appointment?
+            {recovery ? "Planning a project?" : "Already booked an appointment?"}
             <br />
             <span className="text-foreground/75">
-              Manage your booking here — view details, reschedule, or cancel anytime.
+              {recovery ? "Contact our team to discuss your plans." : "Manage your booking here — view details, reschedule, or cancel anytime."}
             </span>
           </p>
           <button
             type="button"
             onClick={onManageBooking}
-            aria-label="Manage your booking"
+            aria-label={recovery ? "Contact IG Sabroso" : "Manage your booking"}
             className="group mt-5 inline-flex min-h-11 items-center gap-2.5 rounded-full border border-white/40 bg-white/85 px-5 py-3 text-sm font-semibold tracking-wide text-foreground shadow-card backdrop-blur-md transition hover:scale-[1.02] hover:bg-white dark:bg-white/10"
           >
             <CalendarCheck size={16} className="text-primary" />
-            Manage Booking
+            {recovery ? "Contact Us" : "Manage Booking"}
           </button>
         </motion.div>
 

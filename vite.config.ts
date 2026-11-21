@@ -7,14 +7,20 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import netlify from "@netlify/vite-plugin-tanstack-start";
 
+const pagesRecovery = process.env.CF_PAGES === "1";
+
 export default defineConfig({
   nitro: false,
   tanstackStart: {
+    prerender: pagesRecovery ? { enabled: true, crawlLinks: false, failOnError: true } : undefined,
+    pages: pagesRecovery ? ["/", "/projects", "/details", "/consultation"].map((path) => ({ path })) : undefined,
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // The TanStack Start Vite build uses this entry.
     server: { entry: "server" },
   },
   vite: {
-    plugins: [netlify()],
+    preview: pagesRecovery ? { host: "127.0.0.1" } : undefined,
+    plugins: pagesRecovery ? [] : [netlify()],
+    define: { "import.meta.env.VITE_PAGES_RECOVERY": JSON.stringify(pagesRecovery) },
   },
 });

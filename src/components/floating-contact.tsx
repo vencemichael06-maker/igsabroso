@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, Bot, Headphones, X, Send, ArrowRight } from "lucide-react";
+import { MessageCircle, Bot, Headphones, X, Send, ArrowRight, Phone, Mail } from "lucide-react";
 import logoAsset from "@/assets/logo.png.asset.json";
 import supportIconAsset from "@/assets/support-icon.png.asset.json";
-import { IGS_PHONE_WA } from "@/lib/contact";
+import { IGS_PHONE_WA, IGS_PHONE_TEL, IGS_PHONE_DISPLAY, IGS_EMAIL } from "@/lib/contact";
+
+const recovery = import.meta.env.VITE_PAGES_RECOVERY === true;
 
 type Mode = null | "menu" | "bot" | "agent";
 type Msg = { from: "bot" | "user"; text: string };
@@ -180,6 +182,16 @@ export function FloatingContact() {
                   </span>
                   <ArrowRight size={14} className="text-muted-foreground group-hover:translate-x-1 transition" />
                 </button>
+                {recovery ? <>
+                <a href={`tel:${IGS_PHONE_TEL}`} className="w-full flex items-center gap-3 rounded-2xl p-3 border border-border hover:border-primary/60 transition text-left">
+                  <span className="h-10 w-10 rounded-full gradient-brand text-primary-foreground inline-flex items-center justify-center"><Phone size={18} /></span>
+                  <span><span className="block text-sm font-bold">Call us</span><span className="block text-xs text-muted-foreground">{IGS_PHONE_DISPLAY}</span></span>
+                </a>
+                <a href={`mailto:${IGS_EMAIL}`} className="w-full flex items-center gap-3 rounded-2xl p-3 border border-border hover:border-primary/60 transition text-left">
+                  <span className="h-10 w-10 rounded-full gradient-brand text-primary-foreground inline-flex items-center justify-center"><Mail size={18} /></span>
+                  <span><span className="block text-sm font-bold">Email us</span><span className="block text-xs text-muted-foreground break-all">{IGS_EMAIL}</span></span>
+                </a>
+                </> : <>
                 <button onClick={startBot} className="w-full flex items-center gap-3 rounded-2xl p-3 border border-border hover:border-primary/60 hover:bg-primary/5 transition text-left group">
                   <span className="h-10 w-10 rounded-full gradient-brand text-primary-foreground inline-flex items-center justify-center"><Bot size={18} /></span>
                   <span className="flex-1">
@@ -196,6 +208,7 @@ export function FloatingContact() {
                   </span>
                   <ArrowRight size={14} className="text-muted-foreground group-hover:translate-x-1 transition" />
                 </button>
+                </>}
               </div>
             ) : mode === "agent" ? (
               <>
@@ -248,6 +261,10 @@ export function FloatingContact() {
           {open ? (
             <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }} className="h-[52px] w-[52px] sm:h-14 sm:w-14 max-[390px]:h-12 max-[390px]:w-12 rounded-full bg-background border-2 border-primary inline-flex items-center justify-center text-foreground">
               <X size={20} />
+            </motion.span>
+          ) : recovery ? (
+            <motion.span key="contact" className="h-full w-full rounded-full gradient-brand text-primary-foreground inline-flex items-center justify-center">
+              <MessageCircle size={22} aria-hidden="true" />
             </motion.span>
           ) : (
             <motion.img
